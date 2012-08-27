@@ -7,7 +7,7 @@ Version 0.0.1
 <pre><code>
 		&lt;prototype name="jade" group="inet" description="JADE">
 			&lt;location link="jade.hrc"/>
-			&lt;filename>/\.(jade)$/i</filename>
+			&lt;filename>/\.(jade)$/i&lt;/filename>
 		&lt;/prototype>
 </code></pre>
   2. place this file(jade.hrc) into eclipsepath/plugins/net.sf.colorer_\*\.\*\.\*/colorer/hrc/
