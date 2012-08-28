@@ -21,24 +21,29 @@
     <region name='ID' parent='def:EmbeddedTag'/>
 
     <scheme name="SimpleAttributes">
-      <regexp match='/(?{def:Parameter}[\w_]+) \s* (?{def:Symbol}\=)/ix'/>
+      <regexp match='/\s* (?{def:Parameter}[\w\_]+?)( \s* (?{def:Symbol}\=(\=)?!) \s* (?{def:String}[^\,\s\)]+) \s* )?/ix'
+    					region='def:String' />
       <block start='/([&apos;&quot;])/' end='/\y1/' region='def:String'
              region00='def:PairStart' region10='def:PairEnd' scheme='def:empty'/>
-    </scheme>    
+    </scheme> 
     
-    <scheme name="SimpleRuby">
-      <!-- HAML 3 ruby continuation via comma -->
+    <!-- HAML 3 ruby continuation via comma -->
+    <!--<scheme name="SimpleRuby">
       <block start='/\,\s*$/' end='/^/' scheme='def:empty'/>
       <inherit scheme='ruby:Keywords'/>
       <inherit scheme='ruby:Strings'/>
-    </scheme>    
+    </scheme>-->    
 
     <scheme name="jade">
       <regexp match='/^\M (?{def:Outlined} [\%\.\#] [\w\-]+)/ix'/>
-      
-      <regexp match='/(?{def:OpenTag} ^\s* ) (?{def:Operator}(include|append|prepend|block|extend|yield))(\s+(?{def:Parameter}\w+))?/ix' region='def:Keyword'/>	
-      
-      <regexp match='/(?{def:OpenTag} ^\s*) (?{def:Tag}[\w\-]+)/ix' region='def:Keyword'/>
+      <regexp match='/(?{def:CommentContent} ^\s*//\-.*)/ix' region='def:Comment'/>
+      <regexp match='/(?{def:OpenTag} ^\s* ) (?{def:Keyword}(mixin))\s+(?{def:Function}\w+)/ix' region='def:Keyword'/>	
+      <regexp match='/(?{def:OpenTag} ^\s* ) (?{def:Function}\+[\w\_]+).+/ix' />
+      <regexp match='/(?{def:OpenTag} ^\s* ) (?{def:Keyword}(include|append|prepend|block|extends|yield))(\s+(?{def:Parameter}\w+))?/ix' region='def:Keyword'/>	
+      <regexp match='/(?{def:OpenTag} ^\s* ) (?{def:Keyword}(for|each)) \s+ (?{def:Parameter} [\w_]+) \s+ (?{def:Keyword}in) \s+ (?{def:Parameter} [\w_\.]+)/ix' />
+			<regexp match='/(?{def:OpenTag} ^\s* ) (?{def:Keyword}(if|else)) \s+ .+/ix' />
+			
+      <regexp match='/(?{def:OpenTag} ^\s*) (?{def:Tag}[\w\-]+)((?{def:Symbol}\=)\s+(?{def:Parameter}.+))?/ix' region='def:Keyword'/>
       <regexp match='/(?{def:OpenTag} \. ) (?{Class}[\w\-]+)/ix' region='def:Keyword'/>
       <regexp match='/(?{def:OpenTag} \# ) (?{ID}[\w\-]+)/ix' region='def:Keyword'/>
 
@@ -47,13 +52,14 @@
       <block start='/^!!!/' end='/$/' region='def:Insertion'
          region00='def:PairStart' region10='def:PairEnd' scheme='ruby:ruby'/>
 
+      <!--
       <block start='/^((\s\s)*):(ruby)/' end='/^\M (\s*$|\y1\s)?! /ix' region='def:Insertion' region01='def:Outlined'
          region00='def:PairStart' region10='def:PairEnd' scheme='ruby:ruby'/>
       <block start='/^((\s\s)*):(javascript)/' end='/^\M (\s*$|\y1\s)?! /ix' region='def:Insertion' region01='def:Outlined'
          region00='def:PairStart' region10='def:PairEnd' scheme='jScript:jScript'/>
       <block start='/^((\s\s)*):(sass)/' end='/^\M (\s*$|\y1\s)?! /ix' region='def:Insertion' region01='def:Outlined'
          region00='def:PairStart' region10='def:PairEnd' content-priority='low' scheme='sass:sass'/>
-
+			-->
       <block start='/^((\s\s)*):(plain|cdata|escaped|preserve|textile|\w+)/' end='/^\M (\s*$|\y1\s)?! /ix' region01='def:Outlined'
          region='def:Insertion' region00='def:PairStart' region10='def:PairEnd' scheme='def:empty'/>
 
@@ -62,7 +68,7 @@
       <block start='/\=/' end='/$/' scheme='SimpleRuby' region='def:Insertion'/>
 
       <block start='/\(/' end='/\)/' region00='def:PairStart' region10='def:PairEnd' scheme='SimpleAttributes'/>
-
+      
     </scheme>
 
   </type>
