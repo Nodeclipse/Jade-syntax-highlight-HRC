@@ -21,11 +21,10 @@
     <region name='ID' parent='def:EmbeddedTag'/>
 
     <scheme name="SimpleAttributes">
-      <regexp match='/\s* (?{def:Parameter}[\w\_]+?)( \s* (?{def:Symbol}\=(\=)?!) \s* (?{def:String}[^\,\s\)]+) \s* )?/ix'
-    					region='def:String' />
+      <regexp match='/(?{def:Parameter}[\w_]+) \s* (?{def:Symbol}\=)/ix'/>
       <block start='/([&apos;&quot;])/' end='/\y1/' region='def:String'
              region00='def:PairStart' region10='def:PairEnd' scheme='def:empty'/>
-    </scheme> 
+    </scheme>
     
     <!-- HAML 3 ruby continuation via comma -->
     <!--<scheme name="SimpleRuby">
@@ -37,6 +36,7 @@
     <scheme name="jade">
       <regexp match='/^\M (?{def:Outlined} [\%\.\#] [\w\-]+)/ix'/>
       <regexp match='/(?{def:CommentContent} ^\s*//\-.*)/ix' region='def:Comment'/>
+      <regexp match='/(?{def:CommentContent} ^\s*//.*)/ix' region='def:Comment'/>
       <regexp match='/(?{def:OpenTag} ^\s* ) (?{def:Keyword}(mixin))\s+(?{def:Function}\w+)/ix' region='def:Keyword'/>	
       <regexp match='/(?{def:OpenTag} ^\s* ) (?{def:Function}\+[\w\_]+).+/ix' />
       <regexp match='/(?{def:OpenTag} ^\s* ) (?{def:Keyword}(include|append|prepend|block|extends|yield))(\s+(?{def:Parameter}\w+))?/ix' region='def:Keyword'/>	
