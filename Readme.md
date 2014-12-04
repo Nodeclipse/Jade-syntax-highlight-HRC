@@ -1,4 +1,6 @@
-# This file is hrc for jade template syntax highlight in eclipse using colorer plugin (http://colorer.sourceforge.net/)
+see <https://github.com/colorer/EclipseColorer/issues/7>
+
+This file is hrc for jade template syntax highlight in eclipse using colorer plugin (http://colorer.sourceforge.net/)
 
 Version 0.0.1
 
